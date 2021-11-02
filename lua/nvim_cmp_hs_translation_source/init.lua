@@ -1,5 +1,5 @@
 local Job = require "plenary.job"
-
+print('initializing comp source')
 path_sep = vim.loop.os_uname().sysname == "Windows" and "\\" or "/"
 
 function path_join(...) return table.concat(vim.tbl_flatten({...}), path_sep) end
