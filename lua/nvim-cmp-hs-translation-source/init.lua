@@ -125,6 +125,7 @@ source.is_available = function() return true end
 local M = {}
 
 function M.setup()
-    require("cmp").register_source("lyaml_completion", source.new())
+    require("cmp").register_source("nvim-cmp-hs-translation-source",
+                                   source.new())
 end
 
