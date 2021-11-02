@@ -125,7 +125,7 @@ source.is_available = function() return true end
 local M = {}
 
 function M.setup()
-    require("cmp").register_source("nvim-cmp-hs-translation-source",
+    require("cmp").register_source("nvim_cmp_hs_translation_source",
                                    source.new())
 end
 
