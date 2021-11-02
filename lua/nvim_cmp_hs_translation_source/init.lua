@@ -45,6 +45,7 @@ end
 source.complete = function(self, _, callback)
     local bufnr = vim.api.nvim_get_current_buf()
 
+    print('using cache')
     -- Only generate this map once per session. Might want to add an invalidate flag somewhere eventually
     if not self.cache[bufnr] then
         -- Try to find the project root of the current file via a git directory
@@ -52,7 +53,8 @@ source.complete = function(self, _, callback)
         local root_dir = buffer_find_root_dir(bufnr, function(dir)
             return is_dir(path_join(dir, '.git'))
         end)
-
+        print('found root dir')
+        print(vim.inspect(root_dir))
         -- We couldn't find a root directory, so ignore this file.
         if not root_dir then callback {items = {}, isIncomplete = false} end
 
@@ -62,7 +64,7 @@ source.complete = function(self, _, callback)
             args = {'--files', root_dir},
             on_exit = function(job)
                 local all_files = job:result()
-
+                print(vim.inspect(all_files))
                 -- from within all files, search for any en.lyaml files
                 Job:new({
                     command = 'rg',
@@ -70,6 +72,7 @@ source.complete = function(self, _, callback)
                     writer = all_files,
                     on_exit = function(job)
                         local lyaml_files_for_current_project = job:result()
+                        print(vim.inspect(lyaml_files_for_current_project))
                         local args = {}
                         table.insert(args, "ea")
                         table.insert(args, '. as $item ireduce ({}; . * $item )')
@@ -87,7 +90,7 @@ source.complete = function(self, _, callback)
                             on_exit = function(job)
                                 local unparsed_results = job:result()
                                 local items = {}
-
+                                print(vim.inspect(unparsed_results))
                                 -- map over every key/translation line
                                 for k, v in ipairs(unparsed_results) do
                                     -- separate each line into a key/translation via the ` = ` between then
