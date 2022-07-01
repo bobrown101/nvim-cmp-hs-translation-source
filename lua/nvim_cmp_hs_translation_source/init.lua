@@ -73,7 +73,7 @@ source.complete = function(self, _, callback)
                                 remove_prefix_from_string(
                                     translationKeyValuePair[1], "en.")
 
-                            if (label ~= "" and not str:match "^#") then -- filter out empty lines and comment lines
+                            if (label ~= "" and not label:match "^#") then -- filter out empty lines and comment lines
                                 -- strip off the "en." from the beginning of every key
                                 table.insert(items, {
                                     label = label,
