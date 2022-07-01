@@ -17,7 +17,7 @@ function split_string(s, delimiter)
     return result;
 end
 
-function remove_language_prefix(s) return s:gsub("en.", "") end
+function remove_language_prefix(s) return s:gsub("en.%", "") end
 
 local source = {}
 
