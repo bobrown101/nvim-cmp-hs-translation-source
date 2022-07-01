@@ -17,7 +17,9 @@ function split_string(s, delimiter)
     return result;
 end
 
-function remove_language_prefix(s) return s:gsub("en.%", "") end
+function remove_prefix_from_string(s, p)
+    return (s:sub(0, #p) == p) and s:sub(#p + 1) or s
+end
 
 local source = {}
 
@@ -70,8 +72,8 @@ source.complete = function(self, _, callback)
 
                             -- strip off the "en." from the beginning of every key
                             table.insert(items, {
-                                label = remove_language_prefix(
-                                    translationKeyValuePair[1]),
+                                label = remove_prefix_from_string(
+                                    translationKeyValuePair[1], "en."),
                                 documentation = {
                                     kind = "markdown",
                                     value = translationKeyValuePair[2]
