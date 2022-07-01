@@ -69,16 +69,20 @@ source.complete = function(self, _, callback)
                             -- separate each line into a key/translation via the ` = ` between then
                             local translationKeyValuePair = split_string(v,
                                                                          " = ")
+                            local label =
+                                remove_prefix_from_string(
+                                    translationKeyValuePair[1], "en.")
 
-                            -- strip off the "en." from the beginning of every key
-                            table.insert(items, {
-                                label = remove_prefix_from_string(
-                                    translationKeyValuePair[1], "en."),
-                                documentation = {
-                                    kind = "markdown",
-                                    value = translationKeyValuePair[2]
-                                }
-                            })
+                            if (label ~= "") then
+                                -- strip off the "en." from the beginning of every key
+                                table.insert(items, {
+                                    label = label,
+                                    documentation = {
+                                        kind = "markdown",
+                                        value = translationKeyValuePair[2]
+                                    }
+                                })
+                            end
                         end
 
                         callback {items = items, isIncomplete = false}
